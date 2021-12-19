@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>RikkoPizza | Панель элементов</title>
+    <link rel="stylesheet" href="/css/bootstrap.css">
+    <link rel="stylesheet" href="/css/navbar.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/owl.theme.default.css" />
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,800" rel="stylesheet">
+    <link rel="stylesheet" href="/css/splide.min.css">
+</head>
+<body class="container">
+<div class="container col-9 mt-5">
+    <a href="/admin" class="text-decoration-none">
+        Вернуться в панель управления
+    </a>
+</div>
+<div class="container col-8 card mt-1">
+    <h1 text="${title}" class="mt-2 mb-2">Создание нового элемента</h1>
+    <form th:method="POST" th:action="@{/api/v1/item/new}" th:object="${item}" enctype="multipart/form-data">
+        <div class="row justify-content-between">
+            <div class="col-4">
+                <div class="input-group">
+                    <span class="input-group-text">Название:</span>
+                    <input type="text" class="form-control" th:field="*{name}">
+                </div>
+            </div>
+            <div class="col-8">
+                <div class="input-group">
+                    <span class="input-group-text">Изображение:</span>
+                    <input type="file" class="form-control" th:field="*{multipartFile}">
+                </div>
+            </div>
+        </div>
+
+        <div class="input-group mb-2 mt-2">
+            <span class="input-group-text">Описание:</span>
+            <textarea class="form-control" th:field="*{description}">
+
+            </textarea>
+        </div>
+        <div class="row justify-content-between">
+            <div class="col-5">
+                <div class="input-group mb-1 col-8">
+                    <span class="input-group-text">Раздел: </span>
+                    <select class="form-control" th:field="*{sectionId}" >
+                        <option value="-1">Скрытый раздел</option>
+                        <option th:each="section : ${sections}" th:value="${section.getId()}" th:text="${section.getTitle()}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="input-group mb-1 col-8">
+                    <span class="input-group-text">Цена: </span>
+                    <input type="text" class="form-control text-end" th:field="*{price}">
+                    <span class="input-group-text">Рублей</span>
+                </div>
+            </div>
+        </div>
+        <button class="btn bg-success mt-2 mb-2" style="color: white">
+            Сохранить
+        </button>
+    </form>
+</div>
+</body>
+</html>

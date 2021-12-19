@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>RikkoPizza | Панель разделов</title>
+    <link rel="stylesheet" href="/css/bootstrap.css">
+    <link rel="stylesheet" href="/css/navbar.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/owl.theme.default.css" />
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,800" rel="stylesheet">
+    <link rel="stylesheet" href="/css/splide.min.css">
+</head>
+<body class="container">
+<div class="container col-9 mt-5">
+    <a href="/admin" class="text-decoration-none">
+       Вернуться в панель управления
+    </a>
+</div>
+<div class="container col-8 card mt-1">
+    <h1 text="${title}" class="mt-2 mb-2">Создание нового раздела</h1>
+    <form class="needs-validation" novalidate th:method="POST" th:action="@{/api/v1/section/new}" th:object="${section}" enctype="multipart/form-data">
+        <div class="input-group mb-1">
+            <span class="input-group-text">Текст заголовка:</span>
+            <input type="text" class="form-control" th:field="*{title}" id="title" required>
+            <div class="invalid-feedback">
+                Заголовок не должен быть пустым
+            </div>
+        </div>
+        <div class="input-group mb-1">
+            <span class="input-group-text" id="basic-addon3">Иконка:</span>
+            <input type="file" class="form-control" th:field="*{multipartFile}" required>
+            <div class="invalid-feedback">
+                Нужно выбрать иконку раздела
+            </div>
+        </div>
+        <div class="input-group mb-1">
+            <span class="input-group-text">Приоритет:</span>
+            <input type="text" class="form-control" value="0" pattern="[-]?[0-9]+" th:field="*{priority}">
+            <div class="valid-feedback">
+                Пустое поле означает нулевой приоритет!
+            </div>
+        </div>
+        <button class="btn bg-success" style="color: white">
+            Сохранить
+        </button>
+    </form>
+</div>
+
+<script>
+    (function () {
+        'use strict'
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.querySelectorAll('.needs-validation')
+
+        // Loop over them and prevent submission
+        Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })()
+</script>
+</body>
+</html>

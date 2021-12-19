@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div th:each="section: ${sectionList}">
+        <a th:text="${section.getTitle()}">user</a>
+    </div>
+</body>
+</html>

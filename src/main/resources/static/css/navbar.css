@@ -1,0 +1,98 @@
+*{
+    font-family: 'Montserrat';
+}
+.logo{
+    transform:scale(1.05, 1.05);
+    border-radius: 5px;
+}
+.sidebar {
+    height: 100vh;
+    -webkit-box-shadow: 7px 0px 6px -5px rgba(34, 60, 80, 0.6);
+    -moz-box-shadow: 7px 0px 6px -5px rgba(34, 60, 80, 0.6);
+    box-shadow: 7px 0px 6px -5px rgba(34, 60, 80, 0.6);
+}
+.li-icon{
+    width: 36px;
+    height: 36px;
+    margin-right: 15px;
+}
+.li-icon.active{
+    filter: invert(98%) sepia(100%) saturate(9%) hue-rotate(102deg) brightness(105%) contrast(100%);
+    margin-right: 30px;
+}
+.li-item{
+    font-size: 14pt;
+    transition: 0.1s;
+    height: 100%;
+}
+.li-item:hover{
+    transform: scale(1.1,1.1);
+    -webkit-box-shadow: 0px 0px 2px 2px rgba(34, 60, 80, 0.1);
+    -moz-box-shadow: 0px 0px 2px 2px rgba(34, 60, 80, 0.1);
+    box-shadow: 0px 0px 2px 2px rgba(34, 60, 80, 0.1);
+    background-color: white;
+}
+.li-item:active{
+    transform: scale(0.9,0.9);
+    transform: translateX(20px);
+    background-color: rgb(250, 175, 143);
+}
+.active{
+    transform: translateX(20px);
+}
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link{
+    background-color: rgb(255, 93, 43);
+}
+
+.button{
+    background-color: rgb(255, 93, 43);
+    font-size: 16pt;
+    padding: 7px;
+    border-radius: 0.5rem;
+    color: white;
+    text-decoration: none;
+    transition: 0.25s;
+}
+
+.button:hover{
+    color: white;
+    transform: scale(1.1,1.1);
+}
+.left{
+    border-bottom-left-radius: 0em;
+    border-top-left-radius: 0em;
+    margin-left: 2px;
+}
+.right{
+    border-bottom-right-radius: 0em;
+    border-top-right-radius: 0em;
+    margin-right: 2px;
+}
+.topbar{
+    -webkit-box-shadow: 0px 4px 23px 6px rgba(34, 60, 80, 0.2);
+    -moz-box-shadow: 0px 4px 23px 6px rgba(34, 60, 80, 0.2);
+    box-shadow: 0px 4px 23px 6px rgba(34, 60, 80, 0.2);
+}
+.orange{
+    color: rgb(255, 93, 43) !important;
+}
+
+.btn-outline-primary-orange {
+    color: rgb(255, 93, 43);
+    border-color: rgb(255, 93, 43);
+}
+.btn-outline-primary-orange:hover {
+    color: #fff;
+    background-color: rgb(255, 93, 43);
+    border-color: rgb(255, 93, 43);
+}
+.card-up{
+    transition-duration: 0.3s;
+    border: none;
+}
+.card-up:hover{
+    transform: scale(1.02,1.02);
+}
+.bg-light{
+    background-color: white !important;
+}

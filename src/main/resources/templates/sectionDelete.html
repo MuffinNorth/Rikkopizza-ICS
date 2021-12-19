@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>RikkoPizza | Панель удаления разделов</title>
+    <link rel="stylesheet" href="/css/bootstrap.css">
+    <link rel="stylesheet" href="/css/navbar.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/owl.theme.default.css" />
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,800" rel="stylesheet">
+    <link rel="stylesheet" href="/css/splide.min.css">
+</head>
+<body class="container">
+<div class="container col-9 mt-5">
+    <a href="/admin" class="text-decoration-none">
+        Вернуться в панель управления
+    </a>
+</div>
+<div class="container col-8 card mt-1">
+    <h1 text="${title}" class="mt-2 mb-2/">Удаление раздела</h1>
+    <h5 class="text-danger">Внимание! Удаление раздела перенесет все элементы в "Скрытый раздел"</h5>
+    <form th:method="POST" th:action="@{/api/v1/section/{id}/delete(id=${section.getId()})}" th:object="${section}" enctype="multipart/form-data">
+        <input hidden th:field="*{id}">
+        <div class="input-group mb-1">
+            <span class="input-group-text">Текст заголовка:</span>
+            <input type="text" class="form-control" disabled th:field="*{title}" id="title">
+        </div>
+        <div class="input-group mb-1">
+            <span class="input-group-text" id="basic-addon3">Иконка:</span>
+            <img class="li-icon"
+                 th:attr="src=@{/api/v1/section/{id}/icon/(id=${section.getId()})}">
+        </div>
+        <div class="input-group mb-1">
+            <span class="input-group-text">Приоритет:</span>
+            <input type="text" class="form-control" disabled value="0" th:field="*{priority}">
+        </div>
+        <button class="btn bg-danger mb-2" style="color: white">
+            Удалить
+        </button>
+    </form>
+</div>
+<div class="container col-8 card mt-1">
+<h5 class="mt-2 text-danger">Будут затронуты следующие элементы:</h5>
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th>Название</th>
+            <th>Описание</th>
+            <th>Цена, р</th>
+            <th>Быстрые действия</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="item,iStat : ${section.getItems()}">
+            <th scope="row" class="align-middle" th:text="${iStat.index+1}"></th>
+            <td class="align-middle">
+                <img th:attr="src=@{/api/v1/item/{id}/image/(id=${item.getId()})}" style="width: 50px">
+                <span th:text="${item.getName()}"></span>
+            </td>
+            <td th:text="${item.getDescription()}" class="align-middle"></td>
+            <td th:text="${item.getPrice()}" class="text-end align-middle"></td>
+            <td class="text-center align-middle"> <a class="btn btn-success">Перейти</a></td>
+        </tr>
+        </tr>
+    </tbody>
+</table>
+</div>
+</body>
+</html>
