@@ -102,7 +102,7 @@ public class RestApiController {
         return ResponseEntity.ok().contentType(MediaType.IMAGE_PNG).body(im);
     }
 
-    @GetMapping("/item/{itemid}/delete")
+    @PostMapping("/item/{itemid}/delete")
     public String deleteItem(@PathVariable String itemid){
         int intId = Integer.parseInt(itemid);
         Item deletedItem = itemService.getItemById(intId);

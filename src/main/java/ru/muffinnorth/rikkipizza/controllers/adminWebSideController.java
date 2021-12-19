@@ -71,6 +71,12 @@ public class adminWebSideController {
         return "sectionEdit";
     }
 
+    @GetMapping("/item/edit/{id}")
+    public String getItemEdit(Model model, @PathVariable String id){
+        model.addAttribute("item", itemService.getItemById(Integer.parseInt(id)));
+        return "itemEdit";
+    }
+
     @GetMapping("/item/delete/{id}")
     public String getItemDelete(Model model, @PathVariable String id){
         model.addAttribute("item", itemService.getItemById(Integer.parseInt(id)));

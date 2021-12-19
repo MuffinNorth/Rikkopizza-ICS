@@ -64,13 +64,14 @@
                             <br>
                         </div>
                         <div class="card-footer bg-light">
-                            <div class="align-self-end d-flex justify-content-between align-items-center">
+                            <div class="align-self-end d-flex flex-column">
                                 <Span>
                                     Цена:
                                     <span class="fw-bold" th:text="${item.getPrice()}">250 рублей</span>
                                     р
                                 </Span>
-                                <a href="#" class="btn btn-outline-primary btn-outline-primary-orange">Выбрать</a>
+                                <a th:href="@{/admin/item/edit/{id}(id=${item.getId()})}" class="btn btn-outline-primary btn-outline-primary-orange">Редактировать</a>
+                                <a th:href="@{/admin/item/delete/{id}(id=${item.getId()})}" class="btn btn-outline-danger btn-outline-primary-orange mt-1">Удалить</a>
                             </div>
                         </div>
                     </div>
@@ -120,8 +121,8 @@
                                     <span class="fw-bold" th:text="${item.getPrice()}">250 рублей</span>
                                     р
                                 </Span>
-                                <a href="#" class="btn btn-outline-primary btn-outline-primary-orange">Редактировать</a>
-                                <a href="#" class="btn btn-outline-danger btn-outline-primary-orange mt-1">Удалить</a>
+                                <a th:href="@{/admin/item/edit/{id}(id=${item.getId()})}" class="btn btn-outline-primary btn-outline-primary-orange">Редактировать</a>
+                                <a th:href="@{/admin/item/delete/{id}(id=${item.getId()})}" class="btn btn-outline-danger btn-outline-primary-orange mt-1">Удалить</a>
                             </div>
                         </div>
                     </div>

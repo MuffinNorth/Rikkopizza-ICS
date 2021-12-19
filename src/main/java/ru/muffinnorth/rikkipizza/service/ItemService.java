@@ -60,6 +60,10 @@ public class ItemService {
 
     public boolean deleteSection(Section section){
         if(getSectionById(section.getId()) != null){
+            List<Item> items = section.getItems();
+            items.forEach(item -> {
+                item.setSection(null);
+            });
             sectionRepository.delete(section);
             return true;
         }else{
