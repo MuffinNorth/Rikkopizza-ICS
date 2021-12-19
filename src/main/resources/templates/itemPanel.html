@@ -18,18 +18,18 @@
 </div>
 <div class="container col-8 card mt-1">
     <h1 text="${title}" class="mt-2 mb-2">Создание нового элемента</h1>
-    <form th:method="POST" th:action="@{/api/v1/item/new}" th:object="${item}" enctype="multipart/form-data">
+    <form class="needs-validation" novalidate th:method="POST" th:action="@{/api/v1/item/new}" th:object="${item}" enctype="multipart/form-data">
         <div class="row justify-content-between">
             <div class="col-4">
                 <div class="input-group">
                     <span class="input-group-text">Название:</span>
-                    <input type="text" class="form-control" th:field="*{name}">
+                    <input type="text" class="form-control" th:field="*{name}" required>
                 </div>
             </div>
             <div class="col-8">
                 <div class="input-group">
                     <span class="input-group-text">Изображение:</span>
-                    <input type="file" class="form-control" th:field="*{multipartFile}">
+                    <input type="file" class="form-control" th:field="*{multipartFile}" required>
                 </div>
             </div>
         </div>
@@ -53,7 +53,7 @@
             <div class="col-4">
                 <div class="input-group mb-1 col-8">
                     <span class="input-group-text">Цена: </span>
-                    <input type="text" class="form-control text-end" th:field="*{price}">
+                    <input type="text" class="form-control text-end" th:field="*{price}"  pattern="[^0]+[0-9]*" required>
                     <span class="input-group-text">Рублей</span>
                 </div>
             </div>
@@ -63,5 +63,26 @@
         </button>
     </form>
 </div>
+<script>
+    (function () {
+        'use strict'
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.querySelectorAll('.needs-validation')
+
+        // Loop over them and prevent submission
+        Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })()
+</script>
 </body>
 </html>

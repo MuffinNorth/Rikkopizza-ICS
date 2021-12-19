@@ -1,24 +1,26 @@
 package ru.muffinnorth.rikkipizza.controllers;
 
+import com.sun.xml.bind.v2.TODO;
+import lombok.Data;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.muffinnorth.rikkipizza.model.Item;
 import ru.muffinnorth.rikkipizza.model.Section;
 import ru.muffinnorth.rikkipizza.service.ItemService;
 
-import javax.validation.Valid;
 import java.io.IOException;
-import java.util.Arrays;
+
+import java.util.Iterator;
 import java.util.List;
+
 
 @Controller
 @RequestMapping("/api/v1")
@@ -113,6 +115,21 @@ public class RestApiController {
         return "redirect:/admin";
     }
 
+    @PostMapping("/item/{itemid}/edit")
+    public String editItem(@PathVariable String itemid, @ModelAttribute("item") Item item) throws IOException {
+        int intId = Integer.parseInt(itemid);
+        Item editedItem = itemService.getItemById(intId);
+        if(!item.getMultipartFile().isEmpty()){
+            editedItem.setImage(item.getMultipartFile().getBytes());
+        }
+        editedItem.setName(item.getName());
+        editedItem.setSection(itemService.getSectionById(item.getSectionId()));
+        editedItem.setDescription(item.getDescription());
+        editedItem.setPrice(item.getPrice());
+        itemService.updateItem(editedItem);
+        return "redirect:/admin";
+    }
+
     @Transactional
     @GetMapping("/item/{itemId}/image")
     public ResponseEntity<byte[]> downloadImage(@PathVariable String itemId){
@@ -132,6 +149,43 @@ public class RestApiController {
         }
         itemService.createItem(item);
         return "redirect:/admin";
+    }
+
+    @Data
+    class CartEntity{
+        private int id;
+        private String name;
+        private int price;
+        private String urlToImage;
+    }
+
+    @CrossOrigin
+    @ResponseBody
+    @GetMapping("/item/{itemId}/cartData")
+    public CartEntity getCartData(@PathVariable String itemId){
+        CartEntity entity = new CartEntity();
+        Item item = itemService.getItemById(Integer.parseInt(itemId));
+        if(item == null)
+            return null;
+        entity.setId(item.getId());
+        entity.setName(item.getName());
+        entity.setPrice(item.getPrice());
+        entity.setUrlToImage("/api/v1/item/" + String.valueOf(entity.getId()) + "/image");
+        return entity;
+    }
+
+    @CrossOrigin(origins = "http://localhost:8080")
+    @ResponseBody
+    @PostMapping("/order/make")
+    public String makeOrder(@RequestParam("data") String data) throws org.json.simple.parser.ParseException {
+        JSONArray jsonArray = (JSONArray) new JSONParser().parse(data);
+        Iterator jsonIterator = jsonArray.iterator();
+        while (jsonIterator.hasNext()){
+            JSONObject position = (JSONObject) jsonIterator.next();
+            System.out.println(position.get("key") + " " + position.get("count"));
+            //TODO
+        }
+        return data;
     }
 
 }

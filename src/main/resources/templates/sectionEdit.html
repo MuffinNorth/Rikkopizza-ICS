@@ -18,11 +18,11 @@
 </div>
 <div class="container col-8 card mt-1">
     <h1 text="${title}" class="mt-2 mb-2/">Редактирование раздела</h1>
-    <form th:method="POST" th:action="@{/api/v1/section/{id}/edit(id=${section.getId()})}" th:object="${section}" enctype="multipart/form-data">
+    <form class="needs-validation" novalidate th:method="POST" th:action="@{/api/v1/section/{id}/edit(id=${section.getId()})}" th:object="${section}" enctype="multipart/form-data">
         <input hidden th:field="*{id}">
         <div class="input-group mb-1">
             <span class="input-group-text">Текст заголовка:</span>
-            <input type="text" class="form-control" th:field="*{title}" id="title">
+            <input type="text" class="form-control" th:field="*{title}" id="title" required>
         </div>
         <div class="input-group mb-1">
             <span class="input-group-text" id="basic-addon3">Иконка:</span>
@@ -32,7 +32,7 @@
         </div>
         <div class="input-group mb-1">
             <span class="input-group-text">Приоритет:</span>
-            <input type="text" class="form-control" value="0" th:field="*{priority}">
+            <input type="text" class="form-control" value="0" pattern="[-]?[0-9]+"  th:field="*{priority}" required>
         </div>
         <button class="btn bg-success mb-2" style="color: white">
             Сохранить
@@ -66,5 +66,26 @@
         </tbody>
     </table>
 </div>
+<script>
+    (function () {
+        'use strict'
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.querySelectorAll('.needs-validation')
+
+        // Loop over them and prevent submission
+        Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })()
+</script>
 </body>
 </html>

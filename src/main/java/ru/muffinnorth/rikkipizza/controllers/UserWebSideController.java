@@ -16,7 +16,7 @@ import java.security.Principal;
 import java.util.List;
 
 @Controller
-@RequestMapping("/userSide")
+@RequestMapping("/")
 public class UserWebSideController {
 
     private ItemService itemService;

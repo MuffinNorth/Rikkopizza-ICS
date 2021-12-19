@@ -88,4 +88,7 @@ public class ItemService {
         return sectionRepository.findAll();
     }
 
+    public void updateItem(Item editedItem) {
+        itemRepository.saveAndFlush(editedItem);
+    }
 }

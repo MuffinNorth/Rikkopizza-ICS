@@ -60,7 +60,7 @@
             </td>
             <td th:text="${item.getDescription()}" class="align-middle"></td>
             <td th:text="${item.getPrice()}" class="text-end align-middle"></td>
-            <td class="text-center align-middle"> <a class="btn btn-success">Перейти</a></td>
+            <td class="text-center align-middle"> <a th:href="@{/admin/item/edit/{id}(id=${item.getId()})}" class="btn btn-success">Перейти</a></td>
         </tr>
         </tr>
     </tbody>

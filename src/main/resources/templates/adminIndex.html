@@ -2,7 +2,7 @@
 <html lang="ru" xmlns:th="http://thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title th:text="${test}"></title>
+    <title>RikkoPizza | Панель управления</title>
     <link rel="stylesheet" href="/css/bootstrap.css">
     <link rel="stylesheet" href="/css/navbar.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
@@ -55,6 +55,9 @@
                 </div>
                 <hr>
                 <div class="row gx-5">
+                    <div th:if="${emptyItems.empty}">
+                        <h2 class="text-center">Раздел в данный момент пуст!</h2>
+                    </div>
                     <div class="card card-up col-3" th:each="item : ${emptyItems}">
                         <img th:attr="src=@{api/v1/item/{id}/image/(id=${item.getId()})}" class="card-img-top">
                         <div class="card-body">
@@ -106,6 +109,10 @@
                 </div>
                 <hr>
                 <div class="row gx-5 gy-5">
+                    <div th:if="${section.getItems().empty}">
+                        <h2 class="text-center">Раздел в данный момент пуст! <br> Пусты разделы не будут отображаться для пользователей!</h2>
+                    </div>
+
                     <div class="card card-up col-3" th:each="item : ${section.getItems()}">
                         <img th:attr="src=@{api/v1/item/{id}/image/(id=${item.getId()})}" class="card-img-top">
                         <div class="card-body">

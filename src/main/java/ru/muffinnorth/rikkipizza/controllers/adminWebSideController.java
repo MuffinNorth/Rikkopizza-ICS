@@ -73,13 +73,23 @@ public class adminWebSideController {
 
     @GetMapping("/item/edit/{id}")
     public String getItemEdit(Model model, @PathVariable String id){
-        model.addAttribute("item", itemService.getItemById(Integer.parseInt(id)));
-        return "itemEdit";
+        Item item = itemService.getItemById(Integer.parseInt(id));
+        if(item.getSection() != null){
+            item.setSectionId(item.getSection().getId());
+        }
+        model.addAttribute("item", item);
+        model.addAttribute("sections", itemService.getAllSection());
+        return "itemEdit2";
     }
 
     @GetMapping("/item/delete/{id}")
     public String getItemDelete(Model model, @PathVariable String id){
-        model.addAttribute("item", itemService.getItemById(Integer.parseInt(id)));
+        Item item = itemService.getItemById(Integer.parseInt(id));
+        if(item.getSection() != null){
+            item.setSectionId(item.getSection().getId());
+        }
+        model.addAttribute("item", item);
+        model.addAttribute("sections", itemService.getAllSection());
         return "itemDelete";
     }
 
@@ -91,7 +101,6 @@ public class adminWebSideController {
                 int iid = Integer.parseInt(id);
                 item.setSection(itemService.getSectionById(iid));
                 item.setSectionId(iid);
-                System.out.println(iid);
             }catch (Exception e){ }
         }
         model.addAttribute("item", item);

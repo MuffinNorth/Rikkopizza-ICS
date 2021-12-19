@@ -5,6 +5,7 @@
     <title>RikkoPizza | Главная</title>
     <link rel="stylesheet" href="/css/bootstrap.css">
     <link rel="stylesheet" href="/css/navbar.css">
+    <link rel="stylesheet" href="/css/dropdown.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
     <link rel="stylesheet" type="text/css" href="/css/owl.theme.default.css" />
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,800" rel="stylesheet">
@@ -24,7 +25,7 @@
                     Акции
                 </a>
             </li>
-            <li th:each="section : ${sections}">
+            <li th:each="section : ${sections}" th:if="${!section.getItems().empty}">
                 <a th:href=@{#section_{id}(id=${section.getId()})} class="nav-link link-dark li-item" aria-current="page">
                     <img class="li-icon"
                          th:attr="src=@{api/v1/section/{id}/icon/(id=${section.getId()})}">
@@ -53,12 +54,33 @@
                     </li>
                 </ul>
                 <div>
-                    <a class="button right">
-                        Корзина
-                    </a>
-                    <a class="button left">
-                        0 руб
-                    </a>
+                    <div class="dropdown">
+                        <button onclick="myFunction()" class="dropbtn button right">Корзина</button>
+                        <button class="dropbtn button left" id="allprice">
+                            0 руб
+                        </button>
+                        <div id="myDropdown" class="dropdown-content">
+                            <table class="table table-sm">
+                                <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Название</th>
+                                    <th>Количество</th>
+                                    <th>Цена</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody id="cart">
+                                </tbody>
+                                <tfoot>
+                                <th></th>
+                                <th></th>
+                                <th colspan="3" class="text-end"><button onclick="sendCart()" class="btn btn-outline-success btn-outline-primary-orange">Оформить заказ</button></th>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </nav>
@@ -78,7 +100,8 @@
                     </div>
                 </div>
             </section>
-            <section class="container" th:each="section : ${sections}" th:id="@{section_{id}(id=${section.getId()})}">
+            <br><br>
+            <section class="container" th:each="section : ${sections}" th:if="${!section.getItems().empty}" th:id="@{section_{id}(id=${section.getId()})}">
                 <br><br>
                 <h1 th:text="${section.getTitle()}">Заголовок</h1>
                 <div class="row gx-5">
@@ -97,13 +120,63 @@
                                     <span class="fw-bold" th:text="${item.getPrice()}">250 рублей</span>
                                     р
                                 </Span>
-                                <a href="#" class="btn btn-outline-primary btn-outline-primary-orange">Выбрать</a>
+                                <a th:attr="onclick=@{getDataById({id})(id=${item.getId()})}" class="btn btn-outline-primary btn-outline-primary-orange">Выбрать</a>
                             </div>
                         </div>
                     </div>
                 </div>
+                <br><br>
             </section>
-
+            <hr>
+            <div class="delivery mb-2 bg-light d-flex justify-content-evenly align-items-center">
+                <div class="col-6 mt-5">
+                    <h1 class="delivery-header">
+                        Бесплатная доставка
+                        <br>по городу от 500 рублей
+                    </h1>
+                </div>
+                <div class="col-2"></div>
+                <div class="col-4">
+                    <a target="_blank" href="https://yandex.ru/maps/63/irkutsk/?ll=104.321982%2C52.236031&amp;mode=usermaps&amp;source=constructorLink&amp;um=constructor%3A6c6bbb4935f24566247dc94a72bf341d10d5dfc5a256d9b043ebeedb6bdf5289&amp;z=13">
+                        <img src="image/map.png" alt="" class="card-img-top float-right" style="border-radius: 10%">
+                    </a>
+                </div>
+            </div>
+            <div class="footer mt-5">
+                <div class="">
+                    <div class="row">
+                        <div class="col-4">
+                            г.Иркутск, ул.Старо-Кузьмихинская 48/1 <br>
+                            п.Хомутово, Колхозная 196 Б <br>
+                            <p class="fw-bold fs-2">261-268</p>
+                        </div>
+                        <div class="col-3">
+                            Работаем с 10:00 до 23:00
+                            <div class="row footer__icons">
+                                <div class="col-4 vk">
+                                    <img src="image/vk.png" width="50%">
+                                </div>
+                                <div class="col-4 inst">
+                                    <img src="image/inst.png" width="50%">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-1">
+                            <a href="#stocks" class="text-decoration-none text-muted">Акции</a><br>
+                            <a href="/bonus" class="text-decoration-none text-muted">Бонусы</a><br>
+                            <a href="/contacts" class=" text-muted">Контакты</a><br>
+                        </div>
+                        <div class="col-4 text-end">
+                            <a href="/how-to-order" class="text-decoration-none text-muted">Как сделать заказ?</a><br>
+                            <a href="/how-to-delivery" class="text-decoration-none text-muted">Доставка</a><br>
+                            <a href="/how-to-pay-order" class="text-decoration-none text-muted">Как оплатить?</a><br>
+                            <a href="/offer" class="text-decoration-none text-muted">Публичная оферта</a><br>
+                            <a href="/policy" class="text-decoration-none text-muted">Пользовательское соглашение</a><br>
+                            <a href="#" class="text-decoration-none text-muted">© Rikko Pizza 2020. Все права защищены.</a><br>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </main>
@@ -128,6 +201,8 @@
             offset: 100
         });
     }
+</script>
+<script src="/js/cartController.js">
 </script>
 </body>
 </html>

@@ -2,7 +2,7 @@
 <html lang="ru" xmlns:th="http://thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>RikkoPizza | Панель удаления элемента</title>
+    <title>RikkoPizza | Панель редактирования элемента</title>
     <link rel="stylesheet" href="/css/bootstrap.css">
     <link rel="stylesheet" href="/css/navbar.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
@@ -17,8 +17,8 @@
     </a>
 </div>
 <div class="container col-8 card mt-1">
-    <h1 text="${title}" class="mt-2 mb-2">Удаление элемента</h1>
-    <form th:method="POST" th:action="@{/api/v1/item/{id}/delete(id=${item.getId()})}" th:object="${item}" enctype="multipart/form-data">
+    <h1 text="${title}" class="mt-2 mb-2">Редактирование элемента</h1>
+    <form class="needs-validation" novalidate th:method="POST" th:action="@{/api/v1/item/{id}/edit(id=${item.getId()})}" th:object="${item}" enctype="multipart/form-data">
         <div class="row justify-content-between">
             <div class="col-4">
                 <img th:attr="src=@{/api/v1/item/{id}/image/(id=${item.getId()})}" class="card-img-top">
@@ -26,18 +26,24 @@
             <div class="col-8">
                 <div class="input-group">
                     <span class="input-group-text">Название:</span>
-                    <input disabled type="text" class="form-control" th:field="*{name}">
+                    <input  type="text" class="form-control" th:field="*{name}" required>
                 </div>
                 <div class="input-group mb-2 mt-2">
                     <span class="input-group-text">Описание:</span>
-                    <textarea disabled class="form-control" th:field="*{description}">
+                    <textarea class="form-control" th:field="*{description}">
                     </textarea>
                 </div>
-                <div class="mt-5 row justify-content-between">
+                <div class="col-12 mb-2">
+                    <div class="input-group">
+                        <span class="input-group-text">Изображение:</span>
+                        <input type="file" class="form-control" th:field="*{multipartFile}">
+                    </div>
+                </div>
+                <div class="row justify-content-between">
                     <div class="col-6">
                         <div class="input-group mb-1 col-8">
                             <span class="input-group-text">Раздел: </span>
-                            <select disabled class="form-control" th:field="*{sectionId}" >
+                            <select class="form-control" th:field="*{sectionId}" >
                                 <option value="-1">Скрытый раздел</option>
                                 <option th:each="section : ${sections}" th:value="${section.getId()}" th:text="${section.getTitle()}"></option>
                             </select>
@@ -46,13 +52,13 @@
                     <div class="col-6">
                         <div class="input-group mb-1 col-8">
                             <span class="input-group-text">Цена: </span>
-                            <input disabled type="text" class="form-control text-end" th:field="*{price}">
+                            <input  type="text" class="form-control text-end" pattern="[^0]+[0-9]*" required th:field="*{price}">
                             <span class="input-group-text">Рублей</span>
                         </div>
                     </div>
                 </div>
-                <button class="btn bg-danger mt-2 mb-2 col-12 align-self-end" style="color: white">
-                    Удалить
+                <button class="btn btn-success mt-2 mb-2 col-12 align-self-end" style="color: white">
+                    Сохранить
                 </button>
             </div>
         </div>
@@ -60,5 +66,26 @@
 
     </form>
 </div>
+<script>
+    (function () {
+        'use strict'
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.querySelectorAll('.needs-validation')
+
+        // Loop over them and prevent submission
+        Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })()
+</script>
 </body>
 </html>
